@@ -322,6 +322,29 @@ img { max-width: 100%; height: auto; }
 .article-body p { margin: 0 0 17px; }
 .article-body ul, .article-body ol { margin: 0 0 18px; padding-left: 24px; }
 .article-body li { margin: 7px 0; }
+
+/* 网站地图页的索引列表 */
+.article-body ul.map-list {
+  list-style: none; padding-left: 0; margin: 0 0 24px;
+  border-top: 1px solid var(--border);
+}
+.article-body ul.map-list li {
+  margin: 0; display: flex; align-items: baseline; gap: 12px;
+  padding: 9px 2px; border-bottom: 1px dashed var(--border);
+  line-height: 1.5;
+}
+.article-body ul.map-list li a { flex: 1; min-width: 0; }
+.article-body .map-meta {
+  flex: none; font-size: 12.5px; color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+}
+.article-body .map-count {
+  font-size: 12.5px; font-weight: 400; color: var(--text-3); margin-left: 8px;
+}
+@media (max-width: 560px) {
+  .article-body ul.map-list li { flex-direction: column; gap: 2px; }
+  .article-body .map-meta { align-self: flex-start; }
+}
 .article-body strong { color: #12304d; font-weight: 700; }
 .article-body a { border-bottom: 1px solid #bcd4ea; }
 .article-body a:hover { border-bottom-color: var(--brand); text-decoration: none; }

@@ -125,6 +125,7 @@ T_LIST = read_text(os.path.join(TEMPLATES, "list.html"))
 T_DETAIL = read_text(os.path.join(TEMPLATES, "detail.html"))
 T_SEARCH = read_text(os.path.join(TEMPLATES, "search.html"))
 T_ABOUT = read_text(os.path.join(TEMPLATES, "about.html"))
+T_SITEMAP = read_text(os.path.join(TEMPLATES, "sitemap.html"))
 
 
 def load_posts():
@@ -451,6 +452,41 @@ def main():
          site["keywords"], SITE_URL + "/about/",
          render(T_ABOUT, {}), active="")
 
+    # ---------- 网站地图（HTML 版）----------
+    # 给访客一页看全站，同时把内链铺开便于搜索引擎抓取。
+    def map_list(rows):
+        lis = "".join('<li><a href="%s">%s</a><span class="map-meta">%s</span></li>'
+                      % (u, htmllib.escape(t), m) for u, t, m in rows)
+        return '<ul class="map-list">%s</ul>' % lis
+
+    map_parts = ["<h2>主要页面</h2>"]
+    map_parts.append(map_list([
+        ("/", "首页", ""),
+        ("/news/", "全部方案资讯", "%d 篇" % n_total),
+        ("/search/", "站内搜索", ""),
+        ("/about/", "关于本站与更新方式", ""),
+        ("/sitemap.xml", "sitemap.xml（搜索引擎版）", ""),
+    ]))
+    map_parts.append("<h2>内容分类</h2>")
+    map_parts.append(map_list([("/category/%s/" % s, CATS[s]["name"], "%d 篇" % len(by_cat[s]))
+                               for s in CAT_ORDER]))
+    for s in CAT_ORDER:
+        cp = by_cat[s]
+        if not cp:
+            continue
+        map_parts.append('<h2>%s<span class="map-count">%d 篇</span></h2>'
+                         % (CATS[s]["name"], len(cp)))
+        map_parts.append(map_list([("/news/%s/" % p["slug"], p["title"], p["date"]) for p in cp]))
+
+    # 页面总数 = 固定页(首页/搜索/关于/地图) + 分类页 + 分页列表页 + 文章页
+    total_pages_html = n_total + total_pages + 4 + len(CAT_ORDER)
+    page("sitemap/index.html", "网站地图 — %s" % site["name"],
+         "脚手架.cn 全部页面与文章的总索引，按分类列出所有脚手架施工方案资讯。",
+         site["keywords"], SITE_URL + "/sitemap/",
+         render(T_SITEMAP, {"SITEMAP_CONTENT": "".join(map_parts),
+                            "TOTAL_PAGES": str(total_pages_html)}),
+         active="")
+
     # ---------- 404 ----------
     nf = ('<div class="wrap nf"><h1>404</h1>'
           "<p>页面不存在或已移动。试试从首页或资讯列表重新进入。</p>"
@@ -482,6 +518,7 @@ def main():
         urls.append(("/news/page/%d/" % page_no, today, "0.4"))
     urls.append(("/search/", today, "0.3"))
     urls.append(("/about/", today, "0.4"))
+    urls.append(("/sitemap/", today, "0.4"))
     for s in CAT_ORDER:
         urls.append(("/category/%s/" % s, today, "0.7"))
     for p in posts:
