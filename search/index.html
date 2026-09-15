@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>站内搜索 — 脚手架.cn</title>
+<meta name="description" content="在脚手架.cn 检索全部方案资讯，支持标题、摘要、关键词与正文内容匹配。">
+<meta name="keywords" content="脚手架施工方案,脚手架规范,危大工程,盘扣式脚手架,悬挑脚手架,附着式升降脚手架,脚手架验收">
+<link rel="canonical" href="https://xn--kpuo4jd6z.cn/search/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="脚手架.cn">
+<meta property="og:title" content="站内搜索 — 脚手架.cn">
+<meta property="og:description" content="在脚手架.cn 检索全部方案资讯，支持标题、摘要、关键词与正文内容匹配。">
+<meta property="og:url" content="https://xn--kpuo4jd6z.cn/search/">
+<meta name="theme-color" content="#0f4c81">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/">
+      <span class="logo-mark" aria-hidden="true">脚</span>
+      <span class="logo-text"><b>脚手架.cn</b><i>脚手架施工方案资讯站</i></span>
+    </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden>
+    <label for="nav-toggle" class="nav-burger" aria-label="展开导航">
+      <span></span><span></span><span></span>
+    </label>
+    <nav class="nav" aria-label="主导航"><a href="/">首页</a><a href="/news/">方案资讯</a><a href="/category/rule/">规范标准</a><a href="/category/type/">架体类型</a><a href="/category/safe/">安全验收</a><a href="/search/" class="active">搜索</a></nav>
+  </div>
+</header>
+
+<main id="main">
+<div class="wrap">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="/">首页</a><span class="sep">/</span><span>站内搜索</span></nav>
+  <div class="page-head">
+    <h1>站内搜索</h1>
+    <p class="page-sub">输入关键词检索全部方案资讯。支持标题、摘要、关键词与正文内容匹配。</p>
+  </div>
+
+  <form class="search-box" id="search-form" action="/search/" method="get" role="search">
+    <input type="search" id="q" name="q" placeholder="例如：盘扣式 步距 / 悬挑 槽钢 / 连墙件 间距 / 危大工程" aria-label="搜索关键词" autocomplete="off">
+    <button type="submit">搜索</button>
+  </form>
+
+  <div class="search-hints" id="hints">
+    <span class="filter-label">试试这些词：</span>
+    <button type="button" class="chip" data-kw="盘扣式">盘扣式</button>
+    <button type="button" class="chip" data-kw="悬挑">悬挑</button>
+    <button type="button" class="chip" data-kw="连墙件">连墙件</button>
+    <button type="button" class="chip" data-kw="危大工程">危大工程</button>
+    <button type="button" class="chip" data-kw="验收">验收</button>
+    <button type="button" class="chip" data-kw="计算书">计算书</button>
+  </div>
+
+  <div class="search-status" id="search-status" aria-live="polite">正在加载索引…</div>
+  <div class="card-grid search-results" id="search-results"></div>
+  <div class="search-empty" id="search-empty" hidden>
+    <p>没有匹配的资讯。换一个更短的关键词试试，或直接<a href="/news/">浏览全部资讯</a>。</p>
+  </div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-col">
+      <div class="footer-brand">脚手架.cn</div>
+      <p class="footer-desc">脚手架.cn 聚焦脚手架施工方案：规范标准解读、专项方案编制要点、架体选型对比、安全检查验收与事故案例复盘。面向施工技术负责人、方案编制人、安全员和架子工班组长。</p>
+    </div>
+    <div class="footer-col">
+      <h4>内容板块</h4>
+      <ul class="footer-links"><li><a href="/category/rule/">规范与政策</a></li><li><a href="/category/scheme/">专项方案</a></li><li><a href="/category/type/">架体类型</a></li><li><a href="/category/safe/">安全与验收</a></li><li><a href="/category/case/">事故案例</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h4>常用入口</h4>
+      <ul class="footer-links">
+        <li><a href="/news/">全部方案资讯</a></li>
+        <li><a href="/search/">站内搜索</a></li>
+        <li><a href="/about/">关于本站与更新方式</a></li>
+        <li><a href="/sitemap.xml">网站地图</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 脚手架.cn</span>
+    <span>内容基于现行规范整理，仅作技术参考；实际施工以经审批的专项方案和最新版标准为准。</span>
+  </div>
+</footer>
+
+<script src="/app.js" defer></script>
+
+</body>
+</html>
