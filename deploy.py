@@ -84,7 +84,10 @@ def collect_files(base_dir, includes=None):
     for dirpath, dirnames, filenames in os.walk(base_dir):
         dirnames[:] = [d for d in dirnames if d not in SRC_EXCLUDE_DIRS]
         for fn in filenames:
-            if fn.startswith(".") or fn.endswith(".pyc"):
+            if fn.endswith(".pyc"):
+                continue
+            # 跳过隐藏文件，但 .nojekyll 必须发布（关闭 GitHub Pages 的 Jekyll 处理）
+            if fn.startswith(".") and fn != ".nojekyll":
                 continue
             full = os.path.join(dirpath, fn)
             rel = os.path.relpath(full, base_dir).replace(os.sep, "/")

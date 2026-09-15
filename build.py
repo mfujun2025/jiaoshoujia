@@ -500,6 +500,15 @@ def main():
                "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % SITE_URL)
     written.append("robots.txt")
 
+    # ---------- GitHub Pages：CNAME 与 .nojekyll ----------
+    # CNAME 必须由构建产出：deploy.py 每次覆盖式推送 gh-pages，
+    # 会删掉 GitHub 后台自动生成的 CNAME 文件，导致自定义域名被解绑。
+    write_text(os.path.join(OUT, "CNAME"), SITE_URL.replace("https://", "").rstrip("/") + "\n")
+    written.append("CNAME")
+    # .nojekyll 关闭 Jekyll 处理，避免下划线开头的资源被忽略、加快构建
+    write_text(os.path.join(OUT, ".nojekyll"), "")
+    written.append(".nojekyll")
+
     # ---------- 静态资源 ----------
     import shutil
     for dirpath, _dirnames, filenames in os.walk(STATIC):
