@@ -1,0 +1,42 @@
+<div class="wrap">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="/">首页</a><span class="sep">/</span><span>规范标准</span></nav>
+
+  <div class="page-head">
+    <h1>脚手架规范标准资料库</h1>
+    <p class="page-sub">已收录 <b>{{FILE_COUNT}}</b> 份政府公开文件（共 {{TOTAL_SIZE}}），覆盖强制性规范、危大工程管理规章、方案编制指南与淘汰目录。全部为公开渠道取得，可直接下载。</p>
+  </div>
+
+  <div class="article-body std-card">
+    {{SCOPE_BLOCK}}
+    <p class="muted">文件更新基准日：{{UPDATED}}。每份文件下方均标注来源与格式（文字版 / 图片版），下载前请留意。</p>
+  </div>
+
+  {{DOWNLOAD_GROUPS}}
+
+  <section class="std-block">
+    <h2 class="std-h2">配套阅读</h2>
+    <p class="std-h2-sub">清单负责「有哪些」，速查负责「关键数值是多少」。两份都在站内，可全文搜索。</p>
+    <div class="card-grid">{{RELATED_CARDS}}</div>
+  </section>
+
+  <section class="std-block">
+    <div class="article-body std-card">
+      <h2>来源渠道与版权说明</h2>
+      {{SOURCE_TABLE}}
+      {{COPYRIGHT}}
+    </div>
+  </section>
+
+  <section class="std-block">
+    <div class="std-warn">
+      <h3>使用前请注意</h3>
+      <ul>
+        <li>本资料库收录的是<b>公开渠道版本</b>，不含行业标准（JGJ / JGJ/T / CJGJ）正文，构造参数请查标准原文。</li>
+        <li>强制性规范与部门文件的<b>最新版本以官方发布为准</b>，引用前请复核编号与年号。</li>
+        <li>网上流传的「JGJ 130-2023」「JGJ 130-2024」等版本<b>并不存在</b>，本站速查页有专门的伪标准黑名单。</li>
+      </ul>
+      <p><a class="btn" href="/news/scaffold-codes-quick-ref/">看要点与易错点速查</a>
+         <a class="btn btn-ghost" href="/category/rule/">看规范与政策解读</a></p>
+    </div>
+  </section>
+</div>

@@ -126,6 +126,9 @@ T_DETAIL = read_text(os.path.join(TEMPLATES, "detail.html"))
 T_SEARCH = read_text(os.path.join(TEMPLATES, "search.html"))
 T_ABOUT = read_text(os.path.join(TEMPLATES, "about.html"))
 T_SITEMAP = read_text(os.path.join(TEMPLATES, "sitemap.html"))
+T_STANDARDS = read_text(os.path.join(TEMPLATES, "standards.html"))
+
+STANDARDS = load_json(os.path.join(ROOT, "standards.json"))
 
 
 def load_posts():
@@ -208,6 +211,90 @@ def cat_card_html(slug, count):
         '<div class="cat-card-top"><h3>{name}</h3><span class="cat-n">{n} 篇</span></div>'
         "<p>{desc}</p></a>"
     ).format(slug=slug, name=c["name"], n=count, desc=htmllib.escape(c["desc"]))
+
+
+# --------------------------------------------------------------------------
+# 规范标准资料库
+# --------------------------------------------------------------------------
+def human_size(n):
+    if n >= 1048576:
+        return "%.1f MB" % (n / 1048576.0)
+    if n >= 1024:
+        return "%d KB" % int(round(n / 1024.0))
+    return "%d B" % n
+
+
+def std_file_path(it):
+    return os.path.join(STATIC, "standards", it["file"])
+
+
+def std_download_card_html(it):
+    """一份文件的下载卡。文件大小现场 stat，避免清单与实物不一致。"""
+    p = std_file_path(it)
+    size = human_size(os.path.getsize(p)) if os.path.isfile(p) else "—"
+    badge = "dl-badge is-self" if it.get("tag") == "本站" else "dl-badge"
+    return (
+        '<article class="dl-card">'
+        '<div class="dl-top">'
+        '<span class="dl-code">%s</span>'
+        '<span class="%s">%s</span>'
+        '<span class="dl-fmt">%s</span>'
+        "</div>"
+        "<h3>%s</h3>"
+        '<p class="dl-note">%s</p>'
+        '<div class="dl-meta">'
+        "<span><b>规格</b> %s</span>"
+        "<span><b>大小</b> %s</span>"
+        "<span><b>来源</b> %s</span>"
+        "</div>"
+        '<div class="dl-foot">'
+        '<a class="dl-btn" href="/standards/%s" download>下载 %s</a>'
+        "</div>"
+        "</article>"
+    ) % (
+        htmllib.escape(it["code"]), badge, htmllib.escape(it.get("tag", "")),
+        htmllib.escape(it["format"]),
+        htmllib.escape(it["name"]), htmllib.escape(it["note"]),
+        htmllib.escape(it["fmt_note"]), size, htmllib.escape(it["source"]),
+        it["file"], htmllib.escape(it["format"]),
+    )
+
+
+def std_groups_html():
+    parts = []
+    for g in STANDARDS["groups"]:
+        cards = "".join(std_download_card_html(it) for it in g["items"])
+        parts.append(
+            '<section class="std-group">'
+            '<h2 class="std-h2">%s</h2>'
+            '<p class="std-group-desc">%s</p>'
+            '<div class="dl-grid">%s</div></section>'
+            % (htmllib.escape(g["title"]), htmllib.escape(g["desc"]), cards)
+        )
+    return "".join(parts)
+
+
+def std_related_card_html(item):
+    return (
+        '<a class="card" href="/news/{s}/">'
+        '<div class="card-top"><span class="card-tag">规范标准</span>'
+        '<span class="card-date">速查</span></div>'
+        "<h3>{t}</h3><p>{d}</p>"
+        '<div class="card-foot"><span>规范与政策</span>'
+        '<span class="card-more">阅读全文 →</span></div></a>'
+    ).format(s=item["slug"], t=htmllib.escape(item["title"]), d=htmllib.escape(item["desc"]))
+
+
+def std_source_table_html():
+    rows = ["| 类型 | 官方渠道 | 说明 |", "|---|---|---|"]
+    for s in STANDARDS["sources"]:
+        rows.append("| %s | %s | %s |" % (s["kind"], s["channel"], s["note"]))
+    return md_to_html("\n".join(rows))
+
+
+def std_all_files():
+    return [it for g in STANDARDS["groups"] for it in g["items"]]
+
 
 
 def pager_html(page, total_pages, base):
@@ -452,6 +539,29 @@ def main():
          site["keywords"], SITE_URL + "/about/",
          render(T_ABOUT, {}), active="")
 
+    # ---------- 规范标准资料库（下载中心） ----------
+    std_files = std_all_files()
+    std_missing = [it["file"] for it in std_files if not os.path.isfile(std_file_path(it))]
+    if std_missing:
+        raise SystemExit("standards.json 声明的文件缺失：%s" % ", ".join(std_missing))
+    std_bytes = sum(os.path.getsize(std_file_path(it)) for it in std_files)
+    std_size_label = "%d 份文件 · %s" % (len(std_files), human_size(std_bytes))
+
+    std_body = render(T_STANDARDS, {
+        "FILE_COUNT": len(std_files),
+        "TOTAL_SIZE": human_size(std_bytes),
+        "UPDATED": STANDARDS["updated"],
+        "SCOPE_BLOCK": md_to_html("\n\n".join(STANDARDS["scope"])),
+        "DOWNLOAD_GROUPS": std_groups_html(),
+        "RELATED_CARDS": "".join(std_related_card_html(x) for x in STANDARDS["related"]),
+        "SOURCE_TABLE": std_source_table_html(),
+        "COPYRIGHT": md_to_html(STANDARDS["copyright"]),
+    })
+    page("standards/index.html", "脚手架规范标准资料库 · 原文下载 — %s" % site["name"],
+         "脚手架规范标准与政策法规文件下载：GB 55023-2022 施工脚手架通用规范、住建部令第 37 号危大工程安全管理规定、建办质 2018-31 / 2021-48 / 2024-63 号文件、建质规 2024-5 号重大事故隐患判定标准、2021 年第 50 号淘汰目录，以及可筛选的规范清单 Excel 台账。全部为公开渠道取得，可直接下载。",
+         "脚手架规范下载,GB55023-2022下载,危大工程安全管理规定,建办质2021-48号,建办质2024-63号,淘汰目录,脚手架规范清单Excel,脚手架标准PDF",
+         SITE_URL + "/standards/", std_body, active="/standards/")
+
     # ---------- 网站地图（HTML 版）----------
     # 给访客一页看全站，同时把内链铺开便于搜索引擎抓取。
     def map_list(rows):
@@ -462,6 +572,7 @@ def main():
     map_parts = ["<h2>主要页面</h2>"]
     map_parts.append(map_list([
         ("/", "首页", ""),
+        ("/standards/", "规范标准资料库（文件下载）", std_size_label),
         ("/news/", "全部方案资讯", "%d 篇" % n_total),
         ("/search/", "站内搜索", ""),
         ("/about/", "关于本站与更新方式", ""),
@@ -478,8 +589,8 @@ def main():
                          % (CATS[s]["name"], len(cp)))
         map_parts.append(map_list([("/news/%s/" % p["slug"], p["title"], p["date"]) for p in cp]))
 
-    # 页面总数 = 固定页(首页/搜索/关于/地图) + 分类页 + 分页列表页 + 文章页
-    total_pages_html = n_total + total_pages + 4 + len(CAT_ORDER)
+    # 页面总数 = 固定页(首页/规范资料库/搜索/关于/地图) + 分类页 + 分页列表页 + 文章页
+    total_pages_html = n_total + total_pages + 5 + len(CAT_ORDER)
     page("sitemap/index.html", "网站地图 — %s" % site["name"],
          "脚手架.cn 全部页面与文章的总索引，按分类列出所有脚手架施工方案资讯。",
          site["keywords"], SITE_URL + "/sitemap/",
@@ -513,6 +624,7 @@ def main():
     # ---------- sitemap ----------
     today = datetime.date.today().isoformat()
     urls = [("/", today, "1.0")]
+    urls.append(("/standards/", today, "0.9"))
     urls.append(("/news/", today, "0.9"))
     for page_no in range(2, total_pages + 1):
         urls.append(("/news/page/%d/" % page_no, today, "0.4"))

@@ -92,6 +92,29 @@ for slug in ("rule", "scheme", "type", "safe", "case"):
     if not os.path.isfile(p):
         errors.append("缺分类页: " + slug)
 
+# 7) 规范标准资料库：页面 + 下载文件实体
+std_page = os.path.join(PUB, "standards", "index.html")
+if not os.path.isfile(std_page):
+    errors.append("缺规范标准资料库页: /standards/")
+else:
+    std_html = open(std_page, encoding="utf-8").read()
+    n_dl = std_html.count('class="dl-card"')
+    print("规范标准下载卡: %d 张" % n_dl)
+    if n_dl < 8:
+        errors.append("规范标准下载卡少于 8 张（实际 %d 张）" % n_dl)
+
+    std_dir = os.path.join(PUB, "standards")
+    assets = sorted(f for f in os.listdir(std_dir)
+                    if f.lower().endswith((".pdf", ".xlsx"))) if os.path.isdir(std_dir) else []
+    print("规范标准可下载文件: %d 个" % len(assets))
+    if len(assets) < 8:
+        errors.append("规范标准可下载文件少于 8 个（实际 %d 个）" % len(assets))
+    for f in assets:
+        if os.path.getsize(os.path.join(std_dir, f)) < 5000:
+            errors.append("下载文件疑似为空或损坏: standards/" + f)
+    if "/standards/" not in sm and "standards" not in sm:
+        errors.append("sitemap.xml 未收录 /standards/")
+
 print("HTML 页面数: %d | 检查内链: %d 条" % (len(pages), links))
 print("-" * 52)
 if warns:

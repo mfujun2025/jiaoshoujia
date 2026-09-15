@@ -41,7 +41,8 @@ SITE_BRANCH = "gh-pages"
 SRC_BRANCH = "main"
 
 SRC_INCLUDE = ["build.py", "check.py", "deploy.py", "site.json", "categories.json",
-               "README.md", "部署说明.md", "content", "templates", "static"]
+               "standards.json", "README.md", "部署说明.md",
+               "content", "templates", "static"]
 SRC_EXCLUDE_DIRS = {"public", "shots", "__pycache__", ".git", ".workbuddy"}
 
 
