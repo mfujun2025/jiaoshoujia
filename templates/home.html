@@ -1,0 +1,64 @@
+<section class="hero">
+  <div class="wrap">
+    <p class="hero-kicker">脚手架施工方案 · 规范 · 安全</p>
+    <h1 class="hero-title">脚手架施工方案资讯</h1>
+    <p class="hero-sub">规范标准解读、专项方案编制要点、架体选型对比、安全验收与事故复盘。<br>面向施工技术负责人、方案编制人、安全员与架子工班组长。</p>
+    <form class="hero-search" action="/search/" method="get" role="search">
+      <input type="search" name="q" placeholder="搜索：盘扣式、悬挑、连墙件、危大工程…" aria-label="站内搜索关键词" autocomplete="off">
+      <button type="submit">搜索</button>
+    </form>
+    <ul class="hero-stats">
+      <li><b>{{COUNT}}</b><span>篇方案资讯</span></li>
+      <li><b>{{CAT_COUNT}}</b><span>个内容分类</span></li>
+      <li><b>{{RULE_COUNT}}</b><span>部现行规范梳理</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="block-head">
+      <h2>按分类浏览</h2>
+      <p>选择你当前要解决的问题类型，直接看对应内容。</p>
+    </div>
+    <div class="cat-grid">{{CAT_CARDS}}</div>
+  </div>
+</section>
+
+{{FEATURED_BLOCK}}
+
+<section class="block block-alt">
+  <div class="wrap">
+    <div class="block-head">
+      <h2>最新方案资讯</h2>
+      <p>按发布时间倒序，持续更新。</p>
+      <a class="block-more" href="/news/">查看全部 →</a>
+    </div>
+    <div class="card-grid">{{LATEST_CARDS}}</div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="howto">
+      <h2>这个站怎么用</h2>
+      <div class="howto-grid">
+        <div class="howto-item">
+          <div class="howto-num">1</div>
+          <h3>按分类找</h3>
+          <p>规范看不懂、方案不会写、验收没头绪，分别对应「规范与政策」「专项方案」「安全与验收」。</p>
+        </div>
+        <div class="howto-item">
+          <div class="howto-num">2</div>
+          <h3>按关键词搜</h3>
+          <p>输入「连墙件间距」「盘扣 步距」「悬挑 16 号槽钢」这类具体词，直接命中相关段落。</p>
+        </div>
+        <div class="howto-item">
+          <div class="howto-num">3</div>
+          <h3>看更新</h3>
+          <p>新内容直接出现在「最新方案资讯」，也可用网站地图或订阅方式跟踪。详见 <a href="/about/">关于本站</a>。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

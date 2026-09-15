@@ -1,0 +1,28 @@
+<div class="wrap">
+  <nav class="breadcrumb" aria-label="面包屑"><a href="/">首页</a><span class="sep">/</span><span>站内搜索</span></nav>
+  <div class="page-head">
+    <h1>站内搜索</h1>
+    <p class="page-sub">输入关键词检索全部方案资讯。支持标题、摘要、关键词与正文内容匹配。</p>
+  </div>
+
+  <form class="search-box" id="search-form" action="/search/" method="get" role="search">
+    <input type="search" id="q" name="q" placeholder="例如：盘扣式 步距 / 悬挑 槽钢 / 连墙件 间距 / 危大工程" aria-label="搜索关键词" autocomplete="off">
+    <button type="submit">搜索</button>
+  </form>
+
+  <div class="search-hints" id="hints">
+    <span class="filter-label">试试这些词：</span>
+    <button type="button" class="chip" data-kw="盘扣式">盘扣式</button>
+    <button type="button" class="chip" data-kw="悬挑">悬挑</button>
+    <button type="button" class="chip" data-kw="连墙件">连墙件</button>
+    <button type="button" class="chip" data-kw="危大工程">危大工程</button>
+    <button type="button" class="chip" data-kw="验收">验收</button>
+    <button type="button" class="chip" data-kw="计算书">计算书</button>
+  </div>
+
+  <div class="search-status" id="search-status" aria-live="polite">正在加载索引…</div>
+  <div class="card-grid search-results" id="search-results"></div>
+  <div class="search-empty" id="search-empty" hidden>
+    <p>没有匹配的资讯。换一个更短的关键词试试，或直接<a href="/news/">浏览全部资讯</a>。</p>
+  </div>
+</div>

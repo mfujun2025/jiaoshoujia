@@ -1,0 +1,40 @@
+<div class="wrap article-wrap">
+  <nav class="breadcrumb" aria-label="面包屑">{{BREADCRUMB}}</nav>
+
+  <article class="article">
+    <header class="article-head">
+      <a class="article-cat" href="/category/{{CATEGORY}}/">{{CATEGORY_NAME}}</a>
+      <h1>{{TITLE}}</h1>
+      <p class="article-desc">{{DESC}}</p>
+      <div class="article-meta">
+        <time datetime="{{DATE}}">发布于 {{DATE}}</time>
+        <span class="dot"></span>
+        <span>{{WORD_COUNT}} 字</span>
+        <span class="dot"></span>
+        <span>约 {{READ_MIN}} 分钟读完</span>
+      </div>
+    </header>
+
+    <div class="article-toc" id="toc" hidden>
+      <h2>本文目录</h2>
+      <ol id="toc-list"></ol>
+    </div>
+
+    <div class="article-body" id="article-body">
+{{BODY}}
+    </div>
+
+    <div class="article-tags">
+      <span class="tag-label">关键词</span>
+      {{TAGS}}
+    </div>
+
+    <div class="article-cta">
+      <h3>有疑问或要投稿？</h3>
+      <p>本站内容基于现行规范整理，若你手上的项目涉及具体参数，请以经审批的专项施工方案为准。发现内容有误，欢迎反馈。</p>
+      <a class="btn" href="/about/">了解本站与联系方式</a>
+    </div>
+  </article>
+
+  {{RELATED}}
+</div>

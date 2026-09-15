@@ -1,0 +1,22 @@
+<div class="wrap">
+  <nav class="breadcrumb" aria-label="面包屑">{{BREADCRUMB}}</nav>
+  <div class="page-head">
+    <h1>{{H1}}</h1>
+    <p class="page-sub">{{SUB}}</p>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter-row">
+      <span class="filter-label">分类</span>
+      <div class="chips">{{FILTER_CHIPS}}</div>
+    </div>
+    <form class="inline-search" action="/search/" method="get" role="search">
+      <input type="search" name="q" placeholder="搜关键词…" aria-label="站内搜索关键词" autocomplete="off">
+      <button type="submit">搜索</button>
+    </form>
+  </div>
+
+  {{LIST_BODY}}
+
+  {{PAGER}}
+</div>

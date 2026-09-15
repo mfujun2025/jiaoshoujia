@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<meta name="keywords" content="{{KEYWORDS}}">
+<link rel="canonical" href="{{CANONICAL}}">
+<meta property="og:type" content="{{OG_TYPE}}">
+<meta property="og:site_name" content="{{SITE_NAME}}">
+<meta property="og:title" content="{{TITLE}}">
+<meta property="og:description" content="{{DESCRIPTION}}">
+<meta property="og:url" content="{{CANONICAL}}">
+<meta name="theme-color" content="#0f4c81">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+{{HEAD_EXTRA}}
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主内容</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="logo" href="/">
+      <span class="logo-mark" aria-hidden="true">脚</span>
+      <span class="logo-text"><b>脚手架.cn</b><i>脚手架施工方案资讯站</i></span>
+    </a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden>
+    <label for="nav-toggle" class="nav-burger" aria-label="展开导航">
+      <span></span><span></span><span></span>
+    </label>
+    <nav class="nav" aria-label="主导航">{{NAV}}</nav>
+  </div>
+</header>
+
+<main id="main">
+{{CONTENT}}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-col">
+      <div class="footer-brand">脚手架.cn</div>
+      <p class="footer-desc">{{SITE_DESCRIPTION}}</p>
+    </div>
+    <div class="footer-col">
+      <h4>内容板块</h4>
+      <ul class="footer-links">{{FOOTER_CATS}}</ul>
+    </div>
+    <div class="footer-col">
+      <h4>常用入口</h4>
+      <ul class="footer-links">
+        <li><a href="/news/">全部方案资讯</a></li>
+        <li><a href="/search/">站内搜索</a></li>
+        <li><a href="/about/">关于本站与更新方式</a></li>
+        <li><a href="/sitemap.xml">网站地图</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© {{YEAR}} 脚手架.cn</span>
+    <span>内容基于现行规范整理，仅作技术参考；实际施工以经审批的专项方案和最新版标准为准。</span>
+  </div>
+</footer>
+
+<script src="/app.js" defer></script>
+{{BODY_EXTRA}}
+</body>
+</html>
