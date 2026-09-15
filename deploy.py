@@ -12,6 +12,9 @@ SIGTERM，push 常常卡死或超时。Git Data API 直传效果等同，且不�
     # 2) 同时把源码（content/templates/static/构建脚本）推到 main
     python deploy.py --source
 
+    # 2b) 只推源码到 main（只改了文档/脚本时用，不重传资料库大文件）
+    python deploy.py --source-only
+
     # 3) 指定仓库（默认 mfujun2025/jiaoshoujia）
     python deploy.py --repo mfujun2025/your-repo
 
@@ -167,10 +170,13 @@ def main():
     ap = argparse.ArgumentParser(description="脚手架.cn 站点发布")
     ap.add_argument("--repo", default=DEFAULT_REPO, help="owner/name，默认 " + DEFAULT_REPO)
     ap.add_argument("--source", action="store_true", help="同时把源码推到 main 分支")
+    ap.add_argument("--source-only", action="store_true",
+                    help="只推源码到 main，不重建 gh-pages（文档改动时用，省得重传资料库大文件）")
     ap.add_argument("--create", action="store_true", help="仓库不存在时自动创建")
     args = ap.parse_args()
 
-    if not os.path.isdir(PUB):
+    needs_pages = not args.source_only
+    if needs_pages and not os.path.isdir(PUB):
         raise SystemExit("public/ 不存在，请先运行: python build.py")
 
     user, token = read_creds()
@@ -178,11 +184,12 @@ def main():
     repo = args.repo
     ensure_repo(token, repo, args.create)
 
-    files = collect_files(PUB)
-    print("发布站点产物：%d 个文件 → %s" % (len(files), SITE_BRANCH))
-    push_branch(token, repo, SITE_BRANCH, files, "发布站点：%d 个文件" % len(files))
+    if needs_pages:
+        files = collect_files(PUB)
+        print("发布站点产物：%d 个文件 → %s" % (len(files), SITE_BRANCH))
+        push_branch(token, repo, SITE_BRANCH, files, "发布站点：%d 个文件" % len(files))
 
-    if args.source:
+    if args.source or args.source_only:
         src = collect_files(ROOT, includes=set(SRC_INCLUDE))
         print("发布源码：%d 个文件 → %s" % (len(src), SRC_BRANCH))
         push_branch(token, repo, SRC_BRANCH, src, "更新源码")

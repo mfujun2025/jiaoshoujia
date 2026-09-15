@@ -9,14 +9,16 @@
 ```
 scaffold-cn-site/
 ├── content/            文章源文件（Markdown + front matter），内容都在这里
-├── templates/          HTML 模板（layout / home / list / detail / search / about / sitemap）
+├── templates/          HTML 模板（layout / home / list / detail / search / about / sitemap / standards）
 ├── static/             样式与脚本（style.css / app.js / favicon.svg）
+│   └── standards/      规范标准资料库的可下载文件（PDF / XLSX），整体平铺到 public/standards/
 ├── public/             构建产物，直接部署这一层
 ├── shots/              本地验证截图
-├── site.json           站点级配置（站名、副标题、分页大小等）
+├── site.json           站点级配置（站名、副标题、导航等）
 ├── categories.json     分类定义
-├── build.py            构建脚本：content/ → public/
-├── check.py            产物自检：内链、占位符、索引一致性
+├── standards.json      规范标准资料库的数据（分组、文号、来源、格式说明）
+├── build.py            构建脚本：content/ + *.json → public/
+├── check.py            产物自检：内链、占位符、索引一致性、资料库文件完整性
 ├── deploy.py           发布脚本：走 GitHub REST API 推送
 └── 部署说明.md         完整维护手册
 ```
