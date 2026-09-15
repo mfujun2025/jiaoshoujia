@@ -9,7 +9,7 @@
 ```
 scaffold-cn-site/
 ├── content/            文章源文件（Markdown + front matter），内容都在这里
-├── templates/          HTML 模板（layout / home / list / detail / search / about）
+├── templates/          HTML 模板（layout / home / list / detail / search / about / sitemap）
 ├── static/             样式与脚本（style.css / app.js / favicon.svg）
 ├── public/             构建产物，直接部署这一层
 ├── shots/              本地验证截图
@@ -83,6 +83,10 @@ author: 脚手架.cn
 
 ## 部署状态
 
-- 仓库：`mfujun2025/jiaoshoujia`
-- 托管分支：`gh-pages`
+- 仓库：`mfujun2025/jiaoshoujia`（public）
+- 托管分支：`gh-pages`（源码在 `main`）
 - 自定义域名：`xn--kpuo4jd6z.cn`（punycode 形式）
+- 链路：访客 → Cloudflare → GitHub Pages
+- 站点地图：`/sitemap/`（HTML 版）、`/sitemap.xml`（搜索引擎版）
+
+> `CNAME` 与 `.nojekyll` 由 `build.py` 生成。`deploy.py` 推送 `gh-pages` 是覆盖式的，会清掉分支上 GitHub 自动写入的 `CNAME`，所以这两个文件必须随构建产出，不能依赖后台生成。
