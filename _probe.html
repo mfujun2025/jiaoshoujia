@@ -1,0 +1,43 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>probe</title>
+<body>
+<pre id="out">pending</pre>
+<script>
+const targets = [
+  ["/news/mimu-net-ban-yu-gangbanwang/", "文章页"],
+  ["/", "首页"],
+  ["/news/", "列表页"]
+];
+const out = [];
+let done = 0;
+targets.forEach(([url, label], i) => {
+  const f = document.createElement("iframe");
+  f.style.cssText = "width:390px;height:900px;border:0;position:absolute;left:-9999px";
+  f.src = url;
+  f.onload = () => {
+    try {
+      const d = f.contentDocument;
+      const de = d.documentElement;
+      const vw = de.clientWidth, sw = de.scrollWidth;
+      const bad = [...d.querySelectorAll("*")]
+        .filter(el => el.getBoundingClientRect().right > vw + 1)
+        .slice(0, 8)
+        .map(el => el.tagName.toLowerCase()
+          + (el.className && typeof el.className === "string" ? "." + el.className.split(" ")[0] : "")
+          + "@" + Math.round(el.getBoundingClientRect().right));
+      out[i] = label + ": vw=" + vw + " scrollWidth=" + sw
+        + " overflow=" + (sw > vw ? "YES" : "NO")
+        + (bad.length ? " | 越界: " + bad.join(", ") : "");
+    } catch (e) {
+      out[i] = label + ": 读取失败 " + e.message;
+    }
+    if (++done === targets.length) {
+      document.getElementById("out").textContent = out.join("\n");
+      document.title = "PROBE_DONE";
+    }
+  };
+  document.body.appendChild(f);
+});
+</script>
+</body>
