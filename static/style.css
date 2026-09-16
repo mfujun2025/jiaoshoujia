@@ -303,6 +303,26 @@ img { max-width: 100%; height: auto; }
 .article-desc { margin: 0 0 14px; font-size: 15.5px; color: var(--text-2); line-height: 1.7; }
 .article-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; color: var(--text-3); }
 .article-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); }
+.article-meta .meta-author { color: var(--text-2); font-weight: 600; }
+
+/* 文章封面图。无 cover 的文章不输出该节点，版式与加封面之前完全一致 */
+.article-cover { margin: 0 0 28px; }
+.article-cover img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.article-cover figcaption {
+  margin-top: 10px; font-size: 13px; line-height: 1.65;
+  color: var(--text-3); text-align: center;
+}
+
+/* 卡片缩略图：仅 .has-thumb 的卡片输出，无图卡片保持原样 */
+.card.has-thumb { padding-top: 0; overflow: hidden; }
+.card-thumb { display: block; margin: 0 -20px 16px; background: var(--surface-2); }
+.card-thumb img {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 16 / 9; object-fit: cover;
+}
 
 .article-toc {
   background: var(--surface-2); border: 1px solid var(--border); border-left: 3px solid var(--brand-2);

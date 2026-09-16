@@ -63,13 +63,21 @@ category: rule
 date: 2026-09-15
 desc: 一句话摘要，用于列表卡片与搜索结果
 keywords: 关键词一, 关键词二, 关键词三
-author: 脚手架.cn
+author: 脚手架.cn 编辑部
+cover: xxx-cover.jpg        # 可选，文章页封面图；不写则文章页不显示封面
+thumb: xxx-thumb.jpg        # 可选，卡片缩略图；不写则回退用 cover
+cover_alt: 图片内容的文字描述（无障碍与 SEO 用）
+cover_caption: 图注（可选）
 ---
 
 正文……
 ```
 
 `category` 取值见 `categories.json`：`rule`（法规标准）、`scheme`（专项方案）、`type`（架体类型）、`safe`（安全与验收）、`case`（事故案例）。
+
+**配图**：图片放 `static/images/`，构建时随 `static/` 平铺复制到 `public/images/`，文件名一律用 ASCII。
+建议一张文章配两个尺寸——封面 1536×864（16:9，文章页用）和缩略图 480×270（卡片用，省带宽）。
+**没有 `cover` 字段的文章，文章页和卡片都维持无图版式**，不会破版，所以配图是可选增强、不是必填。
 
 运行 `build.py` 会自动重建首页、文章列表、分类页、搜索索引和 sitemap，无需改动模板。
 

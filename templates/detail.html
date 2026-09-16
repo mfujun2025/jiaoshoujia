@@ -7,6 +7,8 @@
       <h1>{{TITLE}}</h1>
       <p class="article-desc">{{DESC}}</p>
       <div class="article-meta">
+        <span class="meta-author">作者：{{AUTHOR}}</span>
+        <span class="dot"></span>
         <time datetime="{{DATE}}">发布于 {{DATE}}</time>
         <span class="dot"></span>
         <span>{{WORD_COUNT}} 字</span>
@@ -14,6 +16,8 @@
         <span>约 {{READ_MIN}} 分钟读完</span>
       </div>
     </header>
+
+    {{COVER}}
 
     <div class="article-toc" id="toc" hidden>
       <h2>本文目录</h2>

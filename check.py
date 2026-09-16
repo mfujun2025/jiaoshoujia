@@ -79,11 +79,12 @@ print("sitemap URL 总数: %d，其中文章 %d 篇" % (len(locs), len(art_in_sm
 if len(art_in_sm) != len(idx):
     errors.append("sitemap 文章数(%d) ≠ 索引文章数(%d)" % (len(art_in_sm), len(idx)))
 
-# 5) 首页卡片数
+# 5) 首页卡片数（含带缩略图的卡片）
 home = open(os.path.join(PUB, "index.html"), encoding="utf-8").read()
+n_cards = home.count('class="card"') + home.count('class="card has-thumb"')
 print("首页文章卡片: %d 张 | 分类卡: %d 个"
-      % (home.count('class="card"'), home.count('class="cat-card"')))
-if 'class="card"' not in home:
+      % (n_cards, home.count('class="cat-card"')))
+if n_cards == 0:
     errors.append("首页没有文章卡片")
 
 # 6) 分类页是否都生成
@@ -114,6 +115,34 @@ else:
             errors.append("下载文件疑似为空或损坏: standards/" + f)
     if "/standards/" not in sm and "standards" not in sm:
         errors.append("sitemap.xml 未收录 /standards/")
+
+# 8) 文章封面图与卡片缩略图（防字段名写错导致静默丢失）
+cover_pages = [
+    pg for pg in pages
+    if "/news/" in pg.replace(os.sep, "/")
+    and 'class="article-cover"' in open(pg, encoding="utf-8").read()
+]
+print("带封面图的文章页: %d 个" % len(cover_pages))
+if not cover_pages:
+    errors.append("没有任何文章页输出封面图（检查 front matter 的 cover 字段）")
+
+n_thumb = home.count('class="card-thumb"')
+print("首页卡片缩略图: %d 张" % n_thumb)
+if n_thumb < 1:
+    errors.append("首页没有卡片缩略图（检查 thumb / cover 字段）")
+
+img_dir = os.path.join(PUB, "images")
+if os.path.isdir(img_dir):
+    imgs = sorted(os.listdir(img_dir))
+    print("images/ 图片: %d 个" % len(imgs))
+    if not imgs:
+        errors.append("public/images/ 为空")
+    for f in imgs:
+        sz = os.path.getsize(os.path.join(img_dir, f))
+        if sz < 10240:
+            errors.append("图片疑似过小或损坏: images/%s (%d B)" % (f, sz))
+else:
+    errors.append("缺 public/images/ 目录")
 
 print("HTML 页面数: %d | 检查内链: %d 条" % (len(pages), links))
 print("-" * 52)

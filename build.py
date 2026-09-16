@@ -155,8 +155,16 @@ def load_posts():
             "desc": fm.get("desc", ""),
             "keywords": fm.get("keywords", ""),
             "featured": str(fm.get("featured", "")).lower() in ("true", "yes", "1"),
+            "author": fm.get("author") or site.get("author", site["name"]),
+            "cover": fm.get("cover", ""),
+            "cover_alt": fm.get("cover_alt", ""),
+            "cover_caption": fm.get("cover_caption", ""),
+            "thumb": fm.get("thumb", ""),
             "empty_body": False,
         }
+        # 卡片缩略图缺省回落到封面图，避免每篇都要写两个字段
+        if not post["thumb"]:
+            post["thumb"] = post["cover"]
         post["html"] = md_to_html(body)
         post["text"] = strip_md(body)
         post["chars"] = cn_len(post["text"])
@@ -183,9 +191,33 @@ def footer_cats_html():
     )
 
 
+def cover_html(p):
+    """文章封面图。没有 cover 的文章返回空串，页面结构与未加封面时完全一致。"""
+    if not p["cover"]:
+        return ""
+    alt = htmllib.escape(p["cover_alt"] or p["title"])
+    fig = (
+        '<figure class="article-cover">'
+        '<img src="/images/%s" alt="%s" width="1536" height="864" '
+        'loading="eager" decoding="async">' % (urllib.parse.quote(p["cover"]), alt)
+    )
+    if p["cover_caption"]:
+        fig += "<figcaption>%s</figcaption>" % htmllib.escape(p["cover_caption"])
+    return fig + "</figure>"
+
+
 def card_html(p, tokens=None):
+    thumb = ""
+    if p.get("thumb"):
+        thumb = (
+            '<span class="card-thumb">'
+            '<img src="/images/%s" alt="%s" width="480" height="270" '
+            'loading="lazy" decoding="async">'
+            % (urllib.parse.quote(p["thumb"]), htmllib.escape(p["cover_alt"] or p["title"]))
+        )
     return (
-        '<a class="card" href="/news/{slug}/">'
+        '<a class="card{cls}" href="/news/{slug}/">'
+        "{thumb}"
         '<div class="card-top">'
         '<span class="card-tag">{cat}</span>'
         '<span class="card-date">{date}</span>'
@@ -195,6 +227,8 @@ def card_html(p, tokens=None):
         '<div class="card-foot"><span>{kw}</span><span class="card-more">阅读全文 →</span></div>'
         "</a>"
     ).format(
+        cls=" has-thumb" if thumb else "",
+        thumb=thumb,
         slug=p["slug"],
         cat=p["category_name"],
         date=p["date"],
@@ -370,13 +404,14 @@ def emit(rel, content):
 
 
 def page(rel, title, desc, keywords, canonical, content, og="website",
-         head_extra="", body_extra="", active=""):
+         head_extra="", body_extra="", active="", og_image=""):
     full = render(LAYOUT, {
         "TITLE": title,
         "DESCRIPTION": desc,
         "KEYWORDS": keywords,
         "CANONICAL": canonical,
         "OG_TYPE": og,
+        "OG_IMAGE_TAG": ('<meta property="og:image" content="%s">' % og_image) if og_image else "",
         "SITE_NAME": site["name"],
         "SITE_DESCRIPTION": site["description"],
         "NAV": nav_html(active),
@@ -493,7 +528,7 @@ def main():
                 urllib.parse.quote(k.strip()), htmllib.escape(k.strip()))
             for k in (p["keywords"] or "").split(",") if k.strip()
         )
-        ld = json.dumps({
+        ld = {
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": p["title"],
@@ -501,10 +536,13 @@ def main():
             "datePublished": p["date"],
             "dateModified": p["updated"] or p["date"],
             "keywords": p["keywords"],
-            "author": {"@type": "Organization", "name": site["name"]},
+            "author": {"@type": "Organization", "name": p["author"]},
             "publisher": {"@type": "Organization", "name": site["name"]},
             "mainEntityOfPage": {"@type": "WebPage", "@id": "%s/news/%s/" % (SITE_URL, p["slug"])},
-        }, ensure_ascii=False)
+        }
+        if p["cover"]:
+            ld["image"] = "%s/images/%s" % (SITE_URL, p["cover"])
+        ld = json.dumps(ld, ensure_ascii=False)
         body = render(T_DETAIL, {
             "BREADCRUMB":
                 '<a href="/">首页</a><span class="sep">/</span>'
@@ -514,7 +552,9 @@ def main():
             "CATEGORY_NAME": p["category_name"],
             "TITLE": htmllib.escape(p["title"]),
             "DESC": htmllib.escape(p["desc"]),
+            "AUTHOR": htmllib.escape(p["author"]),
             "DATE": p["date"],
+            "COVER": cover_html(p),
             "WORD_COUNT": p["chars"],
             "READ_MIN": p["read_min"],
             "BODY": p["html"],
@@ -525,7 +565,8 @@ def main():
              p["desc"] or site["description"], p["keywords"] or site["keywords"],
              "%s/news/%s/" % (SITE_URL, p["slug"]), body, og="article",
              head_extra='<script type="application/ld+json">%s</script>' % ld,
-             active="/category/%s/" % p["category"])
+             active="/category/%s/" % p["category"],
+             og_image=("%s/images/%s" % (SITE_URL, p["cover"])) if p["cover"] else "")
 
     # ---------- 搜索页 ----------
     page("search/index.html", "站内搜索 — %s" % site["name"],
