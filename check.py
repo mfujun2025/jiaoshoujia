@@ -144,6 +144,14 @@ if os.path.isdir(img_dir):
 else:
     errors.append("缺 public/images/ 目录")
 
+# 11) public/ 根目录不应残留临时/探测文件（deploy 会把它们一起推上线）
+stray = [f for f in sorted(os.listdir(PUB))
+         if f.startswith("_") or f.endswith((".tmp", ".bak", ".orig"))]
+if stray:
+    errors.append("public/ 根目录残留临时文件，会被一起部署上线：%s" % ", ".join(stray))
+else:
+    print("public/ 根目录无临时文件 ✓")
+
 print("HTML 页面数: %d | 检查内链: %d 条" % (len(pages), links))
 print("-" * 52)
 if warns:
