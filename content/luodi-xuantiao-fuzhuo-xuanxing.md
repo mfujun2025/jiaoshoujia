@@ -89,7 +89,7 @@ keywords: 脚手架选型,落地式脚手架,悬挑式脚手架,附着式升降�
 
 - **算经济账**——周转材料量、人工、塔吊占用、爬架专业分包费，按本项目的层数摊销。
 
-- **定方案路径**——落地方案走 JGJ 130-2011，编制要点见[落地式扣件式钢管脚手架专项方案怎么编](/news/luodi-koushi-fangan/)；悬挑方案编制要点见[悬挑式脚手架专项方案怎么编](/news/xuantiao-scaffold-scheme/)；爬架方案见[附着式升降脚手架方案编制要点](/news/fuzhuo-pajia-scheme/)。
+- **定方案路径**——落地方案走 JGJ 130-2011，编制要点见[落地式扣件式钢管脚手架专项方案怎么编](/news/luodi-koushi-fangan/)；悬挑方案编制要点见[悬挑式脚手架专项方案怎么编](/news/xuantiao-scaffold-scheme/)；爬架方案见[附着式升降脚手架方案编制要点](/news/fuzhuo-pajia-scheme/)；混凝土结构施工少不了的卸料平台另有一套算法，见[卸料平台专项方案](/news/xuantiao-xieliaopingtai-fangan/)。
 
 ## 六、每种架体一个最容易踩的坑
 
