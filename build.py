@@ -12,6 +12,11 @@ robots.txt 与搜索索引 search-index.json。
 设计约束（来自本机环境）:
   * 不清空 public/ —— 本机 Python 删除操作被路由到回收站，rmtree 会失败；改为覆盖式写入。
   * 模板占位用 {{TOKEN}} + str.replace —— 不用 str.format，避免 CSS 花括号冲突。
+
+篇幅规格（写稿前先看，细则见 research/spec-word-count.md）:
+  * rule 类深度文：正文 3000—5000 汉字；
+  * scheme / type / safe / case：正文 3000—4400 汉字；
+  * 口径：只数正文汉字，不含 front matter 与文末「本文依据文件」清单。
 """
 import os
 import re
