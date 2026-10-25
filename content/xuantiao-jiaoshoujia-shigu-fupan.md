@@ -210,7 +210,7 @@ featured: true
 
 - 《建筑施工扣件式钢管脚手架安全技术规范》JGJ 130-2011（2011 年发布，现行有效）
 
-- 《施工脚手架通用规范》GB 55023-2022（[住房和城乡建设部发布公告](https://www.mohurd.gov.cn/gongkai/zc/wjk/art/2022/art_17339_765631.html){: target="_blank" rel="noopener" }，2022 年发布，2022 年 10 月 1 日实施，全文强制）
+- 《施工脚手架通用规范》GB 55023-2022（[住房和城乡建设部公告 2022 年第 49 号](https://www.mohurd.gov.cn/gongkai/zc/wjk/art/2022/art_17339_765631.html){: target="_blank" rel="noopener" }，2022 年发布，2022 年 10 月 1 日实施，全文强制）
 
 - 《坠落防护装备安全使用规范》GB/T 23468-2009（2009 年发布）
 
